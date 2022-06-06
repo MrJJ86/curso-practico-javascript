@@ -8,9 +8,7 @@ function areaCuadrado (lado){
     return lado * lado;
 }
 
-console.groupEnd();
-
-// Código del Triángulos
+// Código del Triángulo
 
 function perimetroTriangulo(lado1, lado2, base) {
     return lado1 + lado2 + base;
@@ -18,6 +16,15 @@ function perimetroTriangulo(lado1, lado2, base) {
 
 function areaTriangulo(base, altura){
     return (base * altura) / 2;
+}
+
+function isTrianguloIsoceles(lado1, lado2, base) {
+    if (lado1 == lado2 && lado1 != base) {
+        const altura = Math.sqrt((lado1**2) - ((base/2)**2));
+        return {0: true, 1: altura}
+    } else {
+        return {0: false, 1: 0}
+    }
 }
 
 // Código del círculo
@@ -68,20 +75,34 @@ function calcularPerimetroTriangulo() {
     const a = Number(document.getElementById("InputTriangulo1").value);
     const b = Number(document.getElementById("InputTriangulo2").value);
     const base = Number(document.getElementById("InputTrianguloBase").value);
-    
-    const perimetro = perimetroTriangulo(a, b, base);
 
     const result = document.getElementById("resultTriangulo");
-    result.innerHTML = `El perímetro del triángulo es: ${perimetro}`
+
+    let isoceles = isTrianguloIsoceles(a, b, base);
+
+    if (isoceles[0]) {
+        const perimetro = perimetroTriangulo(a, b, base);
+        result.innerHTML = `El perímetro del triángulo es: ${perimetro}`;
+    } else {
+        result.innerHTML = `Medidas incorrectas, por favor ingrese las medidas para un triángulo isoceles`;
+    }
 }
 
 function calcularAreaTriangulo() {
+    const a = Number(document.getElementById("InputTriangulo1").value);
+    const b = Number(document.getElementById("InputTriangulo2").value);
     const base = Number(document.getElementById("InputTrianguloBase").value);
-    const altura = Number(document.getElementById("InputTrianguloAltura").value);
     
-    const area = areaTriangulo(base, altura);
     const result = document.getElementById("resultTriangulo");
-    result.innerHTML = `El área del triángulo es: ${area}`
+
+    let isoceles = isTrianguloIsoceles(a, b, base);
+    if (isoceles[0]) {
+        const area = areaTriangulo(base, isoceles[1]);
+        result.innerHTML = `El área del triángulo es: ${area}`
+    } else {
+        result.innerHTML = `Medidas incorrectas, por favor ingrese las medidas para un triángulo isoceles`
+    }
+
 }
 
 function calcularPerimetroCirculo() {
